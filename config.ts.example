@@ -1,0 +1,24 @@
+export default {
+	PORT: 1315,
+
+	// Database url
+	DATABASE_URL: "f",
+
+	// Maximum upload size, in bytes
+	// If the file is bigger than this, we'll reject the request
+	MAX_CONTENT_SIZE: 128 * 1024 * 1024,
+
+	// Maximum file name length
+	MAX_CONTENT_NAME_LENGTH: 256,
+
+	// Maximum URL length for shortening
+	// If the URL is longer than this, we'll reject the request
+	MAX_URL_LENGTH: 2048,
+
+	// Storage Path for the uploaded files
+	STORAGE_PATH: "upload",
+
+	SOM: {
+		uwu: "owo",
+	},
+};
