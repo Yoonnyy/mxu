@@ -12,9 +12,13 @@ app.set("PORT", config.PORT || 1315);
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public", { extensions: ["html"] }));
 
 app.use(router);
+
+app.use((req , res) => {
+	res.send("<h1>404: NOT FOUND</h1>")
+})
 
 export default app;

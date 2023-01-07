@@ -4,6 +4,9 @@ const router = Router();
 // Controllers
 import index from "./controllers/index.js";
 
-router.route("/").get(index.get);
+// Middleware 
+import handelUpload from "./middleware/handleUpload.js";
+
+router.route("/").post(handelUpload, index.post);
 
 export default router;

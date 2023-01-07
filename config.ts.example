@@ -2,13 +2,20 @@ export default {
 	PORT: 1315,
 
 	// Database url
-	DATABASE_URL: "f",
+//	DATABASE_URL: "f",
+
+	// Database name
+	DATABASE_NAME: "db.sqlite"
+
+	// Database Logging
+	LOGGING: false,
 
 	// Maximum upload size, in bytes
 	// If the file is bigger than this, we'll reject the request
 	MAX_CONTENT_SIZE: 128 * 1024 * 1024,
 
 	// Maximum file name length
+	// If the file name is longer than this we'll truncate it
 	MAX_CONTENT_NAME_LENGTH: 256,
 
 	// Blacklisted file extensions
