@@ -12,8 +12,7 @@
 		"paths": {
 			"*": ["node_modules/*", "src/types/*"]
 		},
-		"moduleResolution": "Node",
-		"noImplicitAny": false
+		"moduleResolution": "Node"
 	},
-	"include": ["./src/**/*", "./config.js"]
+	"include": ["./src/**/*"]
 }

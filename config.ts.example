@@ -11,14 +11,20 @@ export default {
 	// Maximum file name length
 	MAX_CONTENT_NAME_LENGTH: 256,
 
+	// Blacklisted file extensions
+	BLACKLISTED_FILE_EXT: {
+		"":""
+	},
 	// Maximum URL length for shortening
 	// If the URL is longer than this, we'll reject the request
 	MAX_URL_LENGTH: 2048,
-
+	
+	//  Blacklisted URLs
+	BLACKLISTED_URL: {
+		"":""
+	},
 	// Storage Path for the uploaded files
 	STORAGE_PATH: "upload",
 
-	SOM: {
-		uwu: "owo",
-	},
+
 };
