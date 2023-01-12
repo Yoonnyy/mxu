@@ -2,13 +2,17 @@ export default {
 	PORT: 1315,
 
 	// Database url
-//	DATABASE_URL: "f",
+	DATABASE_URL: "f",
 
 	// Database name
-	DATABASE_NAME: "db.sqlite"
+	DATABASE_NAME: "db.sqlite",
+
 
 	// Database Logging
 	LOGGING: false,
+
+	// Enable / disable file upload
+	FILE_UPLOAD_ACTIVE: true,
 
 	// Maximum upload size, in bytes
 	// If the file is bigger than this, we'll reject the request
@@ -18,10 +22,21 @@ export default {
 	// If the file name is longer than this we'll truncate it
 	MAX_CONTENT_NAME_LENGTH: 256,
 
-	// Blacklisted file extensions
-	BLACKLISTED_FILE_EXT: {
+	// Blacklisted file types
+	BLACKLISTED_MIME_TYP: {
 		"":""
 	},
+
+	// at least 6 is recommended
+	SHORTENED_FILE_NAME_LENGTH: 6,
+
+	// Maximim and minimum expiration time in milliseconds
+	MIN_EXPIRATION: 1 * 24 * 60 * 60 * 1000,
+	MAX_EXPIRATION: 3,
+
+	// Enable / disable url shortening
+	URL_SHORTENING_ACTIVE: true,
+
 	// Maximum URL length for shortening
 	// If the URL is longer than this, we'll reject the request
 	MAX_URL_LENGTH: 2048,
@@ -30,6 +45,10 @@ export default {
 	BLACKLISTED_URL: {
 		"":""
 	},
+
+	// at least 6 is recommended
+	SHORTENED_URL_LENGTH: 6,
+
 	// Storage Path for the uploaded files
 	STORAGE_PATH: "upload",
 
