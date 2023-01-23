@@ -1,12 +1,13 @@
 import { DataSource } from "typeorm";
 import File from "./models/File.js";
 import Url from "./models/Url.js";
+import Shortened from "./models/Shortened.js";
 import config from "../config.js";
 
 const AppDataSource = new DataSource({
 	type: "sqlite",
 	database: config.DATABASE_NAME,
-	entities: [File, Url],
+	entities: [File, Url, Shortened],
 	logging: config.LOGGING,
 	synchronize: true,
 });
