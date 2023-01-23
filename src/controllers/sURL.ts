@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import config from "../../config.js";
 
-const post = async (req: Request | any, res: Response) => {
+const get = async (req: Request | any, res: Response) => {
 	const sURL = req.params.sURL;
 	// TODO: url redirect
 	// TODO: file download
@@ -9,5 +9,5 @@ const post = async (req: Request | any, res: Response) => {
 };
 
 export default {
-	post,
+	get,
 };

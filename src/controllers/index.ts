@@ -8,15 +8,17 @@ import rndstr from "../utils/rndstr.js";
 const AppDataSource = connect();
 
 const post = async (req: Request | any, res: Response) => {
-	const url: string = req.fields.url;
-	const file = req.files.file;
+	const url: string = req.body.url;
+	const file = req.file;
 
 	if (!url && !file) {
 		return res.end("you must either provide a url or a file\n");
 	}
 
 	if (url && file) {
-		return res.end("provide either a url OR a file\n");
+		res.status(400).end(
+			"You must either provide a url or a file, but not both\n"
+		);
 	}
 
 	// URL shortening
@@ -40,7 +42,7 @@ const post = async (req: Request | any, res: Response) => {
 
 		// check for duplicate shortenedURLs
 		for (;;) {
-			const check = URLRepository.findOneBy({
+			const check = await URLRepository.findOneBy({
 				shortenedURL,
 			});
 			// break if check is null else create a new shortenedURL
@@ -66,21 +68,47 @@ const post = async (req: Request | any, res: Response) => {
 		if (!config.FILE_UPLOAD_ACTIVE) {
 			return res.end("file upload is disabled");
 		}
-		console.info("file");
-		
+
+		const FileRepository = AppDataSource.getRepository(File);
+
+		// create shortened filename
+		let shortenedFilename = rndstr(6);
+
+		// check for duplicate shortenedURLs
+		for (;;) {
+			const check = await FileRepository.findOneBy({
+				filename: shortenedFilename,
+			});
+			// break if check is null else create a new shortenedURL
+			if (!check) {
+				break;
+			}
+
+			shortenedFilename = rndstr(6);
+		}
+
+		// URL entity to save
+		const newFile = FileRepository.create({
+			originalFilename: file.originalname,
+			filename: shortenedFilename,
+			expires: 1, // TODO: calculate expire time
+			size: file.size,
+			path: file.path,
+		});
+
+		await FileRepository.save(newFile);
+		return res.end(`${newFile.filename}\n`);
 	}
 
-	res.json({
-		url,
-		file,
-	});
+	res.status(200).end("\n");
 };
 
 export default {
 	post,
 };
 
-// TODO: Error Handling
-// TODO: Custom Expire
-// TODO: File Deletion with token
+// TODO: Error handling
+// TODO: Custom expire
+// TODO: File deletion with token
 // TODO: Fix where db connect fuction
+// TODO: HTTP status codes

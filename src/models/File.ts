@@ -7,7 +7,7 @@ export default class File {
 	id: number
 
 	@Column({
-		length: config.MAX_CONTENT_NAME_LENGTH,
+		length: config.MAX_FILE_NAME_LENGTH,
 	})
 	originalFilename: string
 
@@ -15,8 +15,11 @@ export default class File {
 	filename: string
 
 	@Column()
-	size: number // in kilobytes
+	size: number // in bytes
 
 	@Column()
 	expires: number
+
+	@Column()
+	path: string
 }
