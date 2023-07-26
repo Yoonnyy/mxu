@@ -35,8 +35,6 @@ const post = async (req: Request | any, res: Response) => {
 		if (!config.URL_SHORTENING_ACTIVE) {
 			return res.end("url shortening is disabled");
 		}
-		let lurl = url.split("");
-		console.log(lurl);
 		
 		// check if the URL starts with "https://" and is shorter than MAX_URL_LENGTH
 		if (!url.startsWith("https://") || url.length > config.MAX_URL_LENGTH) {
@@ -122,6 +120,5 @@ export default {
 // TODO: Error handling
 // TODO: Custom expire
 // TODO: File deletion with token
-// TODO: Fix where db connect fuction
 // TODO: HTTP status codes
 

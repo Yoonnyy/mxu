@@ -4,7 +4,6 @@ import helmet from "helmet";
 import router from "./routes.js";
 import config from "../config.js"
 
-
 const app = express();
 
 app.set("PORT", config.PORT || 1315);
