@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import connect from "../db.js";
+import db from "../db.js";
 import config from "../../config.js";
 import rndstr from "../utils/rndstr.js";
 
@@ -8,23 +8,26 @@ import Url from "../models/Url.js";
 import File from "../models/File.js";
 import Shortened from "../models/Shortened.js";
 
-const AppDataSource = connect();
+const AppDataSource = db;
+
+// TypeORM repositries
+const FileRepository = AppDataSource.getRepository(File);
+const ShortenedRepository = AppDataSource.getRepository(Shortened);
+const URLRepository = AppDataSource.getRepository(Url);
 
 const post = async (req: Request | any, res: Response) => {
 	const url: string = req.body.url;
 	const file = req.file;
-
+	
 	if (!url && !file) {
 		return res.end("you must either provide a url or a file\n");
 	}
 
 	if (url && file) {
-		res.status(400).end(
+		return res.status(400).end(
 			"You must either provide a url or a file, but not both\n"
 		);
 	}
-
-	const ShortenedRepository = AppDataSource.getRepository(Shortened);
 
 	// URL shortening
 	if (url) {
@@ -32,15 +35,15 @@ const post = async (req: Request | any, res: Response) => {
 		if (!config.URL_SHORTENING_ACTIVE) {
 			return res.end("url shortening is disabled");
 		}
-
+		let lurl = url.split("");
+		console.log(lurl);
+		
 		// check if the URL starts with "https://" and is shorter than MAX_URL_LENGTH
 		if (!url.startsWith("https://") || url.length > config.MAX_URL_LENGTH) {
 			return res.end("invalid URL\n");
 		}
 
 		// TODO: check blacklisted urls
-
-		const URLRepository = AppDataSource.getRepository(Url);
 
 		// create shortened URL
 		let shortenedURL = rndstr(config.SHORTENED_URL_LENGTH);
@@ -78,8 +81,6 @@ const post = async (req: Request | any, res: Response) => {
 		if (!config.FILE_UPLOAD_ACTIVE) {
 			return res.end("file upload is disabled");
 		}
-
-		const FileRepository = AppDataSource.getRepository(File);
 
 		// TODO:handle duplicate error
 		// check for duplicate shortenedURLs
@@ -123,3 +124,4 @@ export default {
 // TODO: File deletion with token
 // TODO: Fix where db connect fuction
 // TODO: HTTP status codes
+

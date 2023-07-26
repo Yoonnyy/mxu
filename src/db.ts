@@ -24,4 +24,5 @@ function connect() {
 	return AppDataSource;
 }
 
-export default connect;
+
+export default connect();
