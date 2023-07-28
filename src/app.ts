@@ -4,6 +4,8 @@ import helmet from "helmet";
 import router from "./routes.js";
 import config from "../config.js"
 
+config.SHORTENED_URL_LENGTH = Math.floor(config.SHORTENED_URL_LENGTH / 2);
+
 const app = express();
 
 app.set("PORT", config.PORT || 1315);
@@ -19,5 +21,6 @@ app.use(router);
 app.use((req , res) => {
 	res.send("<h1>404: NOT FOUND</h1>")
 })
+
 
 export default app;

@@ -1,11 +1,11 @@
 import config from "../../config.js";
-import rndstr from "./rndstr.js";
+import generateRndstr from "./generateRndstr.js";
 
-function multerFilename(
+async function multerFilename(
 	req: Express.Request,
 	file: Express.Multer.File,
 	cb: (error: Error | null, filename: string) => void
-): void {
+) {
 	const originalFilename = file.originalname;
 
 	if (originalFilename.length > config.MAX_FILE_NAME_LENGTH) {
@@ -15,7 +15,7 @@ function multerFilename(
 		);
 	}
 
-	cb(null, rndstr(config.SHORTENED_FILE_NAME_LENGTH));
+	cb(null, await generateRndstr());
 }
 
 export default multerFilename;

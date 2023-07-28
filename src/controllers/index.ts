@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import db from "../db.js";
 import config from "../../config.js";
-import rndstr from "../utils/rndstr.js";
+import generateRndstr from "../utils/generateRndstr.js";
 
 // Models
 import Url from "../models/Url.js";
@@ -44,20 +44,7 @@ const post = async (req: Request | any, res: Response) => {
 		// TODO: check blacklisted urls
 
 		// create shortened URL
-		let shortenedURL = rndstr(config.SHORTENED_URL_LENGTH);
-
-		// check for duplicate shortenedURLs
-		for (;;) {
-			const check = await URLRepository.findOneBy({
-				shortenedURL,
-			});
-			// break if check is null else create a new shortenedURL
-			if (!check) {
-				break;
-			}
-
-			shortenedURL = rndstr(6);
-		}
+		let shortenedURL = await generateRndstr();
 
 		// URL entity to save
 		const newUrl = URLRepository.create({
@@ -78,18 +65,6 @@ const post = async (req: Request | any, res: Response) => {
 	if (file) {
 		if (!config.FILE_UPLOAD_ACTIVE) {
 			return res.end("file upload is disabled");
-		}
-
-		// TODO:handle duplicate error
-		// check for duplicate shortenedURLs
-		for (;;) {
-			const check = await FileRepository.findOneBy({
-				filename: file.filename,
-			});
-			// break if check is null else create a new shortened filename
-			if (!check) {
-				break;
-			}
 		}
 
 		// File entity to save

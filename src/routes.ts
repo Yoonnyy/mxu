@@ -8,9 +8,7 @@ import sURL from "./controllers/sURL.js";
 
 import fileUpload from "./middleware/fileUpload.js";
 
-router.route("/").post(
-	fileUpload,
-	index.post);
+router.route("/").post(fileUpload, index.post);
 
 router.route("/:sURL").get(sURL.get);
 
