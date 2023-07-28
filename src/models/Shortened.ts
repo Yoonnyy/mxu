@@ -11,5 +11,8 @@ export default class Shortened {
 	
 	// TODO: relationships (?MAYBE?)
 	@Column()
-	URL: string
+	slug: string
+
+	@Column()
+	visitors: number = 0
 }

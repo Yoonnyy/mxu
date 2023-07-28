@@ -44,17 +44,17 @@ const post = async (req: Request | any, res: Response) => {
 		// TODO: check blacklisted urls
 
 		// create shortened URL
-		let shortenedURL = await generateRndstr();
+		let slug = await generateRndstr();
 
 		// URL entity to save
 		const newUrl = URLRepository.create({
-			URL: url,
-			shortenedURL,
+			destination: url,
+			shortenedURL: slug,
 			expires: 1, // TODO: calculate expire time
 		});
 		const newShort = ShortenedRepository.create({
 			type: "url",
-			URL: shortenedURL,
+			slug: slug,
 		});
 
 		await URLRepository.save(newUrl);
@@ -77,7 +77,7 @@ const post = async (req: Request | any, res: Response) => {
 		});
 		const newShort = ShortenedRepository.create({
 			type: "file",
-			URL: file.filename,
+			slug: file.filename,
 		});
 
 		await ShortenedRepository.save(newShort);

@@ -16,7 +16,7 @@ async function generateRndstr() : Promise<string>
 	// check for duplicate
 	for (;;) {
 		const check = await ShortenedRepository.findOneBy({
-			URL: random,
+			slug: random,
 		});
 		// break if check is null else create a new shortenedURL
 		if (!check) {

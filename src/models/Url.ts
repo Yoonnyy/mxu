@@ -9,7 +9,7 @@ export default class URL {
 	@Column({
 		length: config.MAX_URL_LENGTH
 	})
-	URL: string
+	destination: string
 
 	@Column()
 	shortenedURL: string

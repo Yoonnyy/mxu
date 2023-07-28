@@ -23,31 +23,34 @@ const ShortenedRepository = AppDataSource.getRepository(Shortened);
 const URLRepository = AppDataSource.getRepository(Url);
 
 const get = async (req: Request | any, res: Response) => {
-	const sURL = req.params.sURL;
+	const slug = req.params.sURL;
 	
-	if (!sURL)
+	if (!slug)
 		res.status(400).end("the url you provided is empty or invalid\n");
 	
-	let urlOrFile = await ShortenedRepository.findOneBy({
-		URL: sURL,
+	const urlOrFile = await ShortenedRepository.findOneBy({
+		slug: slug,
 	})
 
 	if (!urlOrFile)
 		return res.status(404).end("the url you provided is non existent\n");
 
+	urlOrFile.visitors++;
+	await ShortenedRepository.save(urlOrFile);
+
 	switch (urlOrFile.type) {
 		case "url":
 			const url = await URLRepository.findOneBy({
-				shortenedURL: sURL
+				shortenedURL: slug
 			})
 
 			if (!url)
 				return res.status(500).end("server error. url not found\n");
 
-			return res.redirect(url.URL);
+			return res.redirect(url.destination);
 		case "file":
 			const file = await FileRepository.findOneBy({
-				filename: sURL,
+				filename: slug,
 			})
 			
 			if (!file)
